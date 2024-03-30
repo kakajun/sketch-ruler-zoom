@@ -3,7 +3,9 @@ import rulerRoom from './components/ruler-room.vue'
 </script>
 
 <template>
-  <main>
-    <ruler-room />
-  </main>
+
+      <ruler-room >
+        <img src="./assets/bg.jfif"/>
+      </ruler-room>
+
 </template>
