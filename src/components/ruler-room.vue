@@ -1,16 +1,11 @@
 <template>
   <div class="ruler-room">
     <div class="tool-box">
-    {{ scale }}
-    <button @click="clickopenGuide">打开</button>
+      {{ scale }}
+      <button @click="clickopenGuide">打开</button>
     </div>
 
-        <div
-      id="view-box"
-      ref="viewBoxRef"
-      class="view-box"
-      :style="viewStyle"
-    >
+    <div id="view-box" ref="viewBoxRef" class="view-box" :style="viewStyle">
       <div
         id="view-wrap"
         class="view"
@@ -20,38 +15,31 @@
           height: bookHeight + padding * 2 + 'px'
         }"
       >
-        <div
-          id="canvas"
-          ref="canvasRef"
-          class="canvas"
-          
-          data-type="page"
-        >
-           <slot></slot>
+        <div id="canvas" ref="canvasRef" class="canvas" data-type="page">
+          <slot></slot>
         </div>
       </div>
     </div>
     <lineGuides :pageZoom="pageZoom" v-model:openGuide="openGuide"></lineGuides>
   </div>
-
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
-import lineGuides from './line-guides.vue';
+import { ref, computed, onMounted } from 'vue'
+import lineGuides from './line-guides.vue'
 import addMouseWheel from '../hooks/addMouseWheel'
 import Panzoom from 'panzoom'
 const viewBoxRef = ref(null)
 const pageZoom = ref(1) // 缩放比例-初始值
 let scale = ref(1) // 缩放比例-后面手动缩放
 const width = ref(1200)
-const height=ref(1000)
+const height = ref(1000)
 const pageTop = ref(0)
-const openGuide=ref(false)
+const openGuide = ref(false)
 const padding = ref(24) // 画布内边距
 
-const clickopenGuide=()=>{
-  openGuide.value=!openGuide.value
+const clickopenGuide = () => {
+  openGuide.value = !openGuide.value
 }
 const bookWidth = computed(() => {
   return width.value * pageZoom.value
@@ -60,7 +48,7 @@ const bookHeight = computed(() => {
   return height.value * pageZoom.value
 })
 
-const viewStyle=computed(() => {
+const viewStyle = computed(() => {
   return {
     paddingTop: pageTop.value + 'px',
     transform: `scale(${scale.value})`
@@ -76,48 +64,50 @@ const setcPaddingTop = () => {
   let paddingTop = (wrapperHeight - bookHeight.value - 2 * padding.value) / 2
   pageTop.value = Math.max(paddingTop, paddingMin)
 }
-let panzoomFn
+let instance
 const initPanzoom = () => {
   // document: https://github.com/timmywil/panzoom
   const elem = document.querySelector('#canvas')
-  panzoomFn = Panzoom(elem, {
+  instance = Panzoom(elem, {
     noBind: true,
     cursor: 'default',
     smoothScroll: true,
-    maxScale: 5,
+    bounds: true,
+    boundsPadding: 0.1,
+    maxScale: 3,
     step: 0.1,
-    minScale: 0.01
+    minScale: 0.1
   })
-  elem.addEventListener('panzoomchange', (event) => {
-    scale.value = event.detail.scale
-  })
-  elem.addEventListener('pointerup', (e) => {
-    panzoomFn.handleUp(e)
-  })
+  // elem.addEventListener('panzoomchange', (event) => {
+  //   scale.value = event.detail.scale
+  // })
+  // elem.addEventListener('pointerup', (e) => {
+  //   instance .handleUp(e)
+  // })
 }
 
 onMounted(() => {
   initPanzoom()
-  addMouseWheel('view-box', (isDown) => {
-    scale.value = isDown ? scale.value - 0.01 : scale.value + 0.01
-    panzoomFn.zoom(scale.value)
-    setTimeout(() => {
-    setcPaddingTop()
-  }, 0)
+  instance.on('zoom', function (e) {
+    console.log('Fired when `element` is zoomed', e)
   })
+  // addMouseWheel('view-box', (isDown) => {
+  //   scale.value = isDown ? scale.value - 0.01 : scale.value + 0.01
+  //   instance.zoom(scale.value)
+  //   setTimeout(() => {
+  //   setcPaddingTop()
+  // }, 0)
+  // })
 })
-
-
 </script>
 <style scoped>
-.ruler-room{
+.ruler-room {
   position: relative;
 }
-.tool-box{
+.tool-box {
   position: absolute;
   top: 0;
   left: 0;
-
 }
 .view-box {
   position: relative;
@@ -140,5 +130,4 @@ onMounted(() => {
   margin: 0 auto;
   position: relative;
 }
-
 </style>

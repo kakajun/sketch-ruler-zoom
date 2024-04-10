@@ -11,7 +11,7 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  pageZoom:Number
+  pageZoom: Number
 })
 const container = ref('view-box')
 let guidesTop = ref(null)
@@ -26,7 +26,7 @@ watch(
 watch(
   () => props.pageZoom,
   (val) => {
-    console.log('zoom', val);
+    console.log('zoom', val)
     changeScroll()
   }
 )
@@ -62,7 +62,7 @@ function render() {
     console.log(e, e.guides)
   })
   changeScroll()
-  console.log("3333333333");
+  console.log('3333333333')
 }
 function changeScroll() {
   if (guidesTop.value && guidesLeft.value) {
@@ -86,7 +86,7 @@ function changeScroll() {
 }
 </script>
 
-<style >
+<style>
 .my-horizontal,
 .my-vertical {
   position: absolute !important;
