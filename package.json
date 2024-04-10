@@ -1,8 +1,25 @@
 {
   "name": "sketch-ruler-zoom",
   "version": "0.0.1",
+  "description": "Extensible, mobile friendly pan and zoom framework (supports DOM and SVG).",
   "private": true,
+  "author": "kakajun <253495832@qq.com>",
   "type": "module",
+  "keywords": [
+    "dom",
+    "svg",
+    "pan",
+    "zoom"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kakajun/sketch-ruler-zoom"
+  },
+  "files": [
+    "lib"
+  ],
+  "main": "lib/index.js",
+  "module": "lib/index.mjs",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

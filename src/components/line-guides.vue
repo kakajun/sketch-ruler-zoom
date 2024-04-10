@@ -86,7 +86,7 @@ function changeScroll() {
 }
 </script>
 
-<style lang="less">
+<style >
 .my-horizontal,
 .my-vertical {
   position: absolute !important;
