@@ -27,7 +27,6 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import lineGuides from './line-guides.vue'
-import addMouseWheel from '../hooks/addMouseWheel'
 import Panzoom from 'panzoom'
 const viewBoxRef = ref(null)
 const pageZoom = ref(1) // 缩放比例-初始值
@@ -58,12 +57,12 @@ const viewStyle = computed(() => {
 /**
  * @description:设置顶部距离
  */
-const setcPaddingTop = () => {
-  const wrapperHeight = (viewBoxRef.value && viewBoxRef.value.offsetHeight) || 0
-  const paddingMin = 0
-  let paddingTop = (wrapperHeight - bookHeight.value - 2 * padding.value) / 2
-  pageTop.value = Math.max(paddingTop, paddingMin)
-}
+// const setcPaddingTop = () => {
+//   const wrapperHeight = (viewBoxRef.value && viewBoxRef.value.offsetHeight) || 0
+//   const paddingMin = 0
+//   let paddingTop = (wrapperHeight - bookHeight.value - 2 * padding.value) / 2
+//   pageTop.value = Math.max(paddingTop, paddingMin)
+// }
 let instance
 const initPanzoom = () => {
   // document: https://github.com/timmywil/panzoom
